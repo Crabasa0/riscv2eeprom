@@ -5,7 +5,7 @@ With planned support for:
 beq, bne, bge, blt*
 
 How to use it:
-This program reads from standard in. To compile a the file myprogram.s, you can do $python compiler.py < myprogram.s
+This program reads from standard in. To compile the file myprogram.s, you can do $python compiler.py < myprogram.s
 The JSON will be printed on standard out. 
 I have commented out code that will also copy the JSON to the clipboard for easy pasting into Circuitverse. I didn't want anybody to unintentionally lose data on their clipboard, or to need to install pyperclip. If this feature is appealing you can go in and re-enable it.
 
