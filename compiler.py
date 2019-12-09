@@ -112,6 +112,6 @@ for instr in text_instructions:
 eeprom = copy.deepcopy(EEPROM_template)
 data = eeprom['EEPROM'][0]['customData']['constructorParamaters'][3]
 for i in range(len(mc_instructions)):
-    data[3 * i] = mc_instructions[i]
+    data[4 * i] = mc_instructions[i]
 #pyperclip.copy(json.dumps(eeprom))
 print(json.dumps(eeprom))
