@@ -2,7 +2,7 @@
 import sys
 import json
 import copy
-import pyperclip
+#import pyperclip
 from compiler_data import registers, opcodes, func3, func7, EEPROM_template
 
 text_instructions = []
@@ -19,7 +19,7 @@ for instr in text_instructions:
     #get opcode text
     opcode_text = instr.split(" ")[0]
     params = ''.join(instr.split(' ')[1:]).split(',')
-    if opcode_text[-1] == 'i' or opcode_text[0] == 'b':
+    if opcode_text[-1] == 'i':
         #this is an I-type instruction
         rd_text = params[0]
         rs1_text = params[1]
@@ -38,6 +38,9 @@ for instr in text_instructions:
         imm = imm << 20
         mc_instr = opcode_mc | rd | f3 | rs1 | imm
         mc_instructions.append(mc_instr)
+    elif opcode_text[0] == 'b':
+        print("This compiler doesn't support B-type instructions yet. Sorry!")
+        exit()
     elif opcode_text == 'lw':
         #This is also I-type, but it requires special parsing
         rd_text = params[0]
@@ -94,15 +97,15 @@ for instr in text_instructions:
         rs2 = registers[rs2_text]
         #get the mc opcode and func bits
         opcode_mc = opcodes[opcode_text]
-        func3_mc = func3[opcode_text]
-        func7_mc = func7[opcode_text]
+        f3 = func3[opcode_text]
+        f7 = func7[opcode_text]
         #assemble into a machine code instruction
         rd = rd << 7
-        func3_mc = func3_mc << 12
+        f3 = f3 << 12
         rs1 = rs1 << 15
         rs2 = rs2 << 20
-        func7_mc = func7_mc << 25
-        mc_instr = opcode_mc | rd | func3_mc | rs1 | rs2 | func7_mc
+        f7 = f7 << 25
+        mc_instr = opcode_mc | rd | f3 | rs1 | rs2 | f7
         mc_instructions.append(mc_instr)
 
 #insert mc instructions into the EEPROM JSON
@@ -110,5 +113,5 @@ eeprom = copy.deepcopy(EEPROM_template)
 data = eeprom['EEPROM'][0]['customData']['constructorParamaters'][3]
 for i in range(len(mc_instructions)):
     data[3 * i] = mc_instructions[i]
-pyperclip.copy(json.dumps(eeprom))
+#pyperclip.copy(json.dumps(eeprom))
 print(json.dumps(eeprom))
