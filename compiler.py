@@ -79,7 +79,7 @@ for instr in text_instructions:
         lsb_mask = 0b000000011111
         imm_lsb = imm & lsb_mask
         #assemble the mc instruction
-        imm_lsb = imm_lsb << 5
+        imm_lsb = imm_lsb << 7
         f3 = f3 << 12
         rs1 = rs1 << 15
         rs2 = rs2 << 20
